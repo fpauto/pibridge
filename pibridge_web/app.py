@@ -46,7 +46,7 @@ except ImportError:
     logger.info("Using fallback logger - PiBridge modules not available")
 
 # API endpoint imports
-from pibridge_web.api import networks, connection, hotspot, service, status, bridge
+from pibridge_web.api import networks, connection, hotspot, service, status, bridge, system
 
 
 @app.route('/')
@@ -76,6 +76,7 @@ app.register_blueprint(hotspot.bp, url_prefix='/api')
 app.register_blueprint(service.bp, url_prefix='/api')
 app.register_blueprint(status.bp, url_prefix='/api')
 app.register_blueprint(bridge.bp, url_prefix='/api/bridge')
+app.register_blueprint(system.bp, url_prefix='/api')
 
 
 @app.errorhandler(404)
