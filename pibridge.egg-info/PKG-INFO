@@ -1,0 +1,579 @@
+Metadata-Version: 2.4
+Name: pibridge
+Version: 1.0.0
+Summary: WiFi management tool for Raspberry Pi
+Author: PiBridge Team
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: System :: Networking
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: python-dateutil>=2.8.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# PiBridge - WiFi Manager for Raspberry Pi
+
+A simple, command-line WiFi management tool for Raspberry Pi running Trixie Lite. Scan, connect, manage wireless networks, and create WiFi hotspots with ease.
+
+## Features
+
+- 🔍 **Scan Networks**: Display available WiFi networks with signal strength
+- 🔌 **Quick Connect**: Auto-connect to the strongest saved network
+- 💾 **Save Credentials**: Store network passwords securely in YAML format
+- 📋 **Manage Networks**: List and forget saved networks
+- 🛡️ **rfkill Handling**: Automatic wireless hardware checks
+- 📶 **Hotspot Mode**: Create WiFi access points with hostapd and dnsmasq
+- 📝 **Verbose Logging**: Track operations with detailed logs
+
+## Requirements
+
+- Raspberry Pi running Trixie Lite (or compatible Debian-based system)
+- Python 3.9 or higher
+- NetworkManager (`nmcli`)
+- `rfkill` utility
+- Root/sudo access for network operations
+- **For Hotspot Mode**: `hostapd` and `dnsmasq` (optional, can be installed during setup)
+
+## Installation
+
+### Quick Install
+
+```bash
+# Clone or copy the pibridge directory to your home folder
+cd ~
+# Assuming pibridge is already in ~/pibridge
+
+# Run the installation script
+cd pibridge
+chmod +x install.sh
+./install.sh
+
+# PiBridge is now installed and ready to use!
+pibridge --help
+```
+
+**Note**: The installation script will offer to install hotspot dependencies (`hostapd` and `dnsmasq`). Choose 'Y' to enable hotspot functionality.
+
+### Manual Installation
+
+```bash
+# Check Python version
+python3 --version  # Should be 3.9+
+
+# Install system dependencies
+sudo apt-get update
+sudo apt-get install network-manager rfkill hostapd dnsmasq
+
+# Install Python dependencies
+cd ~/pibridge
+pip3 install --user -r requirements.txt
+
+# Install pibridge
+pip3 install --user -e .
+
+# Check wireless status
+rfkill list wifi
+sudo rfkill unblock wifi  # If needed
+```
+
+## Usage
+
+### Scan for Networks
+
+Display all available WiFi networks with signal strength:
+
+```bash
+pibridge scan
+```
+
+**Example Output:**
+```
+Checking wireless status...
+✓ Wireless hardware is enabled
+Scanning for networks...
+
+Available Networks:
+  [*] HomeNetwork      Signal: -42 dBm (Excellent)  Security: WPA2  Freq: 5 GHz
+  [ ] CoffeeShop       Signal: -55 dBm (Good)       Security: WPA2  Freq: 2.4 GHz
+  [*] WorkWiFi         Signal: -68 dBm (Fair)       Security: WPA3  Freq: 5 GHz
+  [ ] GuestNetwork     Signal: -78 dBm (Weak)       Security: Open  Freq: 2.4 GHz
+
+[*] = Saved network
+Found 4 networks (2 saved)
+```
+
+### Disconnect from Current Network
+
+Disconnect from the current network and free the interface for hotspot mode:
+
+```bash
+pibridge disconnect
+```
+
+**Example Output:**
+```
+Disconnecting from 'HomeNetwork'...
+✓ Disconnected from 'HomeNetwork'
+Verifying interface availability...
+✓ Wireless interface is free and ready for hotspot use
+  Interface: wlan0
+  Status: Interface is disconnected and available
+```
+
+**When Not Connected:**
+```
+Not currently connected to any network
+```
+
+### Connect to a New Network
+
+Connect to a network and save the credentials:
+
+```bash
+pibridge connect "MyWiFi" "mypassword123"
+```
+
+**Example Output:**
+```
+Checking wireless status...
+✓ Wireless hardware is enabled
+Connecting to 'MyWiFi'...
+✓ Successfully connected and saved 'MyWiFi'
+```
+
+### Auto-Connect to Saved Network
+
+Connect to the strongest available saved network:
+
+```bash
+pibridge connect
+```
+
+**Example Output:**
+```
+Checking wireless status...
+✓ Wireless hardware is enabled
+Searching for saved networks...
+✓ Successfully connected to 'HomeNetwork'
+```
+
+### Start WiFi Hotspot
+
+Create a WiFi access point using the wireless interface:
+
+```bash
+pibridge hotspot start
+```
+
+**Example Output:**
+```
+Checking wireless status...
+✓ Wireless hardware is enabled
+Starting WiFi hotspot...
+✓ Hotspot started successfully
+  SSID: pibridge
+  Interface: wlan0
+  IP Address: 192.168.4.1
+  Channel: 6
+```
+
+**Default Settings:**
+- SSID: `pibridge`
+- Password: `pibridge123`
+- IP Range: 192.168.4.10 - 192.168.4.50
+- Channel: 6
+
+### Stop WiFi Hotspot
+
+Stop the active hotspot and free the interface for WiFi connection:
+
+```bash
+pibridge hotspot stop
+```
+
+**Example Output:**
+```
+Stopping WiFi hotspot...
+✓ Hotspot stopped
+  Interface wlan0 is ready for WiFi connection
+```
+
+### List Saved Networks
+
+Show all networks with saved credentials:
+
+```bash
+pibridge list
+```
+
+**Example Output:**
+```
+Saved Networks:
+  1. HomeNetwork
+     Added: 2025-11-09 15:30:00
+     Last Connected: 2025-11-09 18:45:00
+  
+  2. WorkWiFi
+     Added: 2025-11-08 09:15:00
+     Last Connected: 2025-11-08 17:30:00
+  
+  3. CoffeeShop
+     Added: 2025-11-07 14:20:00
+     Last Connected: Never
+
+Total: 3 saved networks
+```
+
+### Forget a Network
+
+Remove a saved network and its credentials:
+
+```bash
+pibridge forget "OldNetwork"
+```
+
+**Example Output:**
+```
+✓ Successfully removed 'OldNetwork'
+```
+
+### Verbose Mode
+
+Enable detailed output for troubleshooting:
+
+```bash
+pibridge --verbose scan
+pibridge --debug connect "MyWiFi" "password"
+```
+
+## Command Reference
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `pibridge scan` | Scan for available networks | `pibridge scan` |
+| `pibridge connect` | Auto-connect to strongest saved network | `pibridge connect` |
+| `pibridge connect <SSID> <password>` | Connect to specific network | `pibridge connect "MyWiFi" "pass123"` |
+| `pibridge disconnect` | Disconnect from current network | `pibridge disconnect` |
+| `pibridge hotspot start` | Start WiFi hotspot | `pibridge hotspot start` |
+| `pibridge hotspot stop` | Stop WiFi hotspot | `pibridge hotspot stop` |
+| `pibridge list` | Show saved networks | `pibridge list` |
+| `pibridge forget <SSID>` | Remove saved network | `pibridge forget "OldWiFi"` |
+| `pibridge --verbose <command>` | Enable verbose output | `pibridge --verbose scan` |
+| `pibridge --debug <command>` | Enable debug logging | `pibridge --debug connect` |
+
+## Configuration
+
+### File Locations
+
+- **Network Config**: `~/pibridge/networks.yaml`
+- **Hotspot Config**: `~/pibridge/hotspot.yaml`
+- **Log File**: `~/pibridge/pibridge.log`
+
+### Network Credentials Storage
+
+Networks are stored in YAML format at `~/pibridge/networks.yaml`:
+
+```yaml
+networks:
+  - ssid: "HomeNetwork"
+    password: "mypassword123"
+    added_date: "2025-11-09T18:30:00Z"
+    last_connected: "2025-11-09T19:15:00Z"
+  - ssid: "WorkWiFi"
+    password: "workpass456"
+    added_date: "2025-11-08T10:00:00Z"
+    last_connected: null
+```
+
+### Hotspot Configuration
+
+Hotspot settings can be customized in `~/pibridge/hotspot.yaml`:
+
+```yaml
+hotspot:
+  ssid: "pibridge"
+  password: "pibridge123"
+  interface: "wlan0"
+  ip_address: "192.168.4.1"
+  subnet_mask: "255.255.255.0"
+  dhcp_start: "192.168.4.10"
+  dhcp_end: "192.168.4.50"
+  channel: 6
+  country_code: "US"
+```
+
+**Security Note**: Configuration files have permissions set to 600 (readable/writable only by owner).
+
+## Troubleshooting
+
+### Wireless is Blocked
+
+**Problem**: `Wireless is soft-blocked` or `Wireless is hardware blocked`
+
+**Solution**:
+```bash
+# For soft-block
+sudo rfkill unblock wifi
+
+# For hardware block
+# Check your Raspberry Pi's hardware switch or BIOS settings
+```
+
+### Hostapd Not Installed
+
+**Problem**: `Failed to start hotspot: Missing dependencies: hostapd, dnsmasq`
+
+**Solution**:
+```bash
+sudo apt-get install hostapd dnsmasq
+sudo systemctl disable hostapd
+sudo systemctl disable dnsmasq
+```
+
+### NetworkManager Not Running
+
+**Problem**: `nmcli` command fails
+
+**Solution**:
+```bash
+# Start NetworkManager
+sudo systemctl start NetworkManager
+sudo systemctl enable NetworkManager
+
+# Check status
+sudo systemctl status NetworkManager
+```
+
+### Wrong Password Error
+
+**Problem**: Connection fails with incorrect password
+
+**Solution**:
+```bash
+# Forget the network and try again with correct password
+pibridge forget "NetworkName"
+pibridge connect "NetworkName" "correctpassword"
+```
+
+### No Wireless Interface Found
+
+**Problem**: `No wireless interface detected`
+
+**Solution**:
+```bash
+# Check for wireless interfaces
+ip link show
+iwconfig
+
+# Common interface names: wlan0, wlan1, wlp2s0
+```
+
+### Permission Denied
+
+**Problem**: Operations fail due to permissions
+
+**Solution**:
+```bash
+# NetworkManager operations require sudo
+# Make sure your user is in the netdev group
+sudo usermod -aG netdev $USER
+
+# Log out and back in for changes to take effect
+```
+
+### Hotspot Won't Start
+
+**Problem**: Hotspot fails to start while WiFi is connected
+
+**Solution**:
+```bash
+# Disconnect WiFi first
+pibridge disconnect
+
+# Then start hotspot
+pibridge hotspot start
+```
+
+## Logging
+
+All operations are logged to `~/pibridge/pibridge.log` with timestamps:
+
+```
+[2025-11-09 18:30:00] INFO: Scanning for available networks...
+[2025-11-09 18:30:02] INFO: Found 5 networks
+[2025-11-09 18:30:05] INFO: Starting WiFi hotspot...
+[2025-11-09 18:30:08] INFO: ✓ Hotspot started successfully
+[2025-11-09 18:30:15] INFO: Stopping WiFi hotspot...
+[2025-11-09 18:30:18] INFO: ✓ Hotspot stopped
+```
+
+View logs:
+```bash
+# View last 20 lines
+tail -n 20 ~/pibridge/pibridge.log
+
+# Follow logs in real-time
+tail -f ~/pibridge/pibridge.log
+
+# Search logs
+grep "ERROR" ~/pibridge/pibridge.log
+```
+
+## Project Structure
+
+```
+~/pibridge/
+├── pibridge/           # Main package
+│   ├── __init__.py
+│   ├── __main__.py    # Entry point
+│   ├── cli.py         # Command parser
+│   ├── scanner.py     # Network scanner
+│   ├── connector.py   # Connection manager
+│   ├── hotspot.py     # Hotspot manager
+│   ├── config_manager.py  # YAML config handler
+│   ├── rfkill_checker.py  # rfkill verification
+│   ├── logger.py      # Logging setup
+│   └── exceptions.py  # Custom exceptions
+├── networks.yaml       # Saved credentials
+├── hotspot.yaml        # Hotspot configuration
+├── pibridge.log        # Application logs
+├── requirements.txt    # Python dependencies
+├── setup.py           # Package definition
+├── install.sh         # Installation script
+└── README.md          # This file
+```
+
+## Development
+
+### Running Tests
+
+```bash
+# Run manual tests
+pibridge scan
+pibridge connect "TestNetwork" "testpass"
+pibridge list
+pibridge hotspot start
+pibridge hotspot stop
+pibridge forget "TestNetwork"
+
+# Check logs for errors
+tail -f ~/pibridge/pibridge.log
+```
+
+### Adding Features
+
+The modular design makes it easy to extend:
+
+1. **Add new commands**: Edit `cli.py` to add command parsers
+2. **Extend scanner**: Modify `scanner.py` for additional network info
+3. **Custom connection logic**: Update `connector.py`
+4. **Custom hotspot logic**: Update `hotspot.py`
+5. **Configuration changes**: Adjust `config_manager.py`
+
+## Security Considerations
+
+- **Password Storage**: Passwords are stored in plain text in the YAML file, similar to how NetworkManager stores connection profiles. File permissions are set to 600 (owner read/write only).
+- **Root Access**: Network operations and hotspot require sudo access.
+- **Log Files**: Logs do not contain passwords, only SSIDs and operation results.
+- **Hotspot Security**: Default hotspot uses WPA2-PSK encryption. Change the default password in `hotspot.yaml`.
+
+**Future Enhancement**: Consider encrypting the YAML file or using the system keyring.
+
+## Known Limitations
+
+- No automatic reconnection monitoring (requires manual `pibridge connect`)
+- No automatic hotspot restart after reboot
+- No enterprise WiFi (802.1X) support
+- No internet sharing/NAT in hotspot mode (only local network)
+- Passwords visible in process list during `pibridge connect` command (use with caution on shared systems)
+
+## Common Workflows
+
+### Switch to Hotspot Mode
+```bash
+# Disconnect from current WiFi
+pibridge disconnect
+
+# Start hotspot
+pibridge hotspot start
+```
+
+### Switch Back to WiFi
+```bash
+# Stop hotspot
+pibridge hotspot stop
+
+# Connect to WiFi
+pibridge connect
+```
+
+### Quick Network Switch
+```bash
+# Disconnect, then auto-connect to strongest saved network
+pibridge disconnect
+pibridge connect
+```
+
+## Tips & Best Practices
+
+1. **Signal Strength**: For best performance, use networks with "Good" or better signal quality
+2. **5 GHz vs 2.4 GHz**: 5 GHz offers faster speeds but shorter range; 2.4 GHz has better range but can be more congested
+3. **Regular Scans**: Run `pibridge scan` periodically to check network availability
+4. **Log Monitoring**: Keep an eye on logs during connection issues for detailed error messages
+5. **Backup Config**: Backup `~/pibridge/networks.yaml` and `~/pibridge/hotspot.yaml` before major changes
+6. **Hotspot Channel**: Choose a less congested channel (1, 6, or 11 for 2.4 GHz)
+
+## Contributing
+
+This is a personal tool for Raspberry Pi WiFi management. If you find bugs or have suggestions:
+
+1. Check the logs in `~/pibridge/pibridge.log`
+2. Ensure rfkill is not blocking wireless
+3. Verify NetworkManager is running
+4. Test with verbose mode: `pibridge --verbose <command>`
+
+## License
+
+This project is for personal use. Modify and distribute freely.
+
+## Changelog
+
+### Version 1.1.0 (Hotspot Support)
+- Added WiFi hotspot functionality using hostapd and dnsmasq
+- `pibridge hotspot start` and `pibridge hotspot stop` commands
+- Customizable hotspot configuration in `hotspot.yaml`
+- Interface verification before hotspot start
+- Automatic disconnection if WiFi is connected
+
+### Version 1.0.0 (Initial Release)
+- Network scanning with signal strength display
+- Connect to new networks with credential saving
+- Auto-connect to strongest saved network
+- List and forget saved networks
+- rfkill checking and handling
+- Comprehensive logging
+- YAML-based configuration
+
+## Support
+
+For issues or questions:
+1. Check the troubleshooting section above
+2. Review logs: `tail -f ~/pibridge/pibridge.log`
+3. Verify system requirements are met
+4. Test with verbose mode: `pibridge --verbose scan`
+
+---
+
+**Ready to connect!** Start with `pibridge scan` to see available networks.

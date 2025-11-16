@@ -1,0 +1,446 @@
+[2025-11-16 07:56:03] INFO: Hotspot is not active
+[2025-11-16 07:56:03] INFO: Use 'pibridge hotspot start' to start the hotspot
+[2025-11-16 07:56:24] ERROR: ✗ Command failed: 'dict' object is not callable
+[2025-11-16 07:56:32] ERROR: ✗ Command failed: 'dict' object is not callable
+[2025-11-16 07:57:05] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 07:57:05] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 07:57:05] INFO: DEBUG: Config file does not exist, creating default...
+[2025-11-16 07:57:05] INFO: DEBUG: Default config created and saved
+[2025-11-16 07:57:05] INFO: PySerial TCP2COM bridge is not active
+[2025-11-16 07:57:05] INFO: Use 'pibridge pyserial-tcp2com start [profile]' to start the bridge
+[2025-11-16 07:58:31] ERROR: ✗ Command failed: 'dict' object is not callable
+[2025-11-16 08:09:20] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:09:20] INFO: WiFi Connection:
+[2025-11-16 08:09:20] ERROR: ✗ Error getting status: No wireless interface found
+[2025-11-16 08:09:48] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:09:48] INFO: WiFi Connection:
+[2025-11-16 08:09:49] INFO:   Status: Error - No wireless interface found
+[2025-11-16 08:09:49] INFO:   Note: WiFi interface not available (this is normal on non-Pi systems)
+[2025-11-16 08:09:49] INFO: 
+Hotspot:
+[2025-11-16 08:09:49] INFO:   Status: Inactive
+[2025-11-16 08:09:49] INFO: 
+Serial Bridge:
+[2025-11-16 08:09:49] INFO:   Status: ✓ Active
+[2025-11-16 08:09:49] INFO:   Service: pibridge.service
+[2025-11-16 08:09:49] INFO:   Port: 23
+[2025-11-16 08:09:49] INFO:   Device: /dev/ttyUSB0
+[2025-11-16 08:09:49] INFO: 
+Web UI:
+[2025-11-16 08:09:49] INFO:   Status: Not running
+[2025-11-16 08:09:49] INFO:   Auto-start: Disabled
+[2025-11-16 08:09:49] INFO: 
+Auto-Recovery:
+[2025-11-16 08:09:50] INFO:   Status: Disabled
+[2025-11-16 08:09:50] INFO: 
+[2025-11-16 08:31:28] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:31:28] INFO: WiFi Connection:
+[2025-11-16 08:31:28] INFO:   Status: Error - No wireless interface found
+[2025-11-16 08:31:28] INFO:   Note: WiFi interface not available (this is normal on non-Pi systems)
+[2025-11-16 08:31:28] INFO: 
+Hotspot:
+[2025-11-16 08:31:29] INFO:   Status: Inactive
+[2025-11-16 08:31:29] INFO: 
+Serial Bridge:
+[2025-11-16 08:31:29] INFO:   Status: Inactive
+[2025-11-16 08:31:29] INFO: 
+Web UI:
+[2025-11-16 08:31:29] INFO:   Status: Not running
+[2025-11-16 08:31:29] INFO:   Auto-start: Disabled
+[2025-11-16 08:31:29] INFO: 
+Auto-Recovery:
+[2025-11-16 08:31:29] INFO:   Status: Disabled
+[2025-11-16 08:31:29] INFO: 
+[2025-11-16 08:34:14] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:34:14] INFO: WiFi Connection:
+[2025-11-16 08:34:14] INFO:   Status: Disconnected
+[2025-11-16 08:34:14] INFO:   Interface: wlan0
+[2025-11-16 08:34:14] INFO: 
+Saved Networks:
+[2025-11-16 08:34:14] INFO:   Count: 0
+[2025-11-16 08:34:14] INFO: 
+Hotspot:
+[2025-11-16 08:34:15] INFO:   Status: Inactive
+[2025-11-16 08:34:15] INFO: 
+Serial Bridge:
+[2025-11-16 08:34:15] INFO:   Status: Inactive
+[2025-11-16 08:34:15] INFO: 
+Web UI:
+[2025-11-16 08:34:15] INFO:   Status: Not running
+[2025-11-16 08:34:15] INFO:   Auto-start: Disabled
+[2025-11-16 08:34:15] INFO: 
+Auto-Recovery:
+[2025-11-16 08:34:15] INFO:   Status: Disabled
+[2025-11-16 08:34:15] INFO: 
+[2025-11-16 08:35:58] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:35:58] INFO: WiFi Connection:
+[2025-11-16 08:35:58] INFO:   Status: Disconnected
+[2025-11-16 08:35:58] INFO:   Interface: wlan0
+[2025-11-16 08:35:58] INFO: 
+Saved Networks:
+[2025-11-16 08:35:58] INFO:   Count: 0
+[2025-11-16 08:35:58] INFO: 
+Hotspot:
+[2025-11-16 08:35:58] INFO:   Status: Inactive
+[2025-11-16 08:35:58] INFO: 
+Serial Bridge:
+[2025-11-16 08:35:59] INFO:   Status: Inactive
+[2025-11-16 08:35:59] INFO: 
+Web UI:
+[2025-11-16 08:35:59] INFO:   Status: Not running
+[2025-11-16 08:35:59] INFO:   Auto-start: Disabled
+[2025-11-16 08:35:59] INFO: 
+Auto-Recovery:
+[2025-11-16 08:35:59] INFO:   Status: Disabled
+[2025-11-16 08:35:59] INFO: 
+[2025-11-16 08:38:46] ERROR: ✗ Command failed: 'dict' object is not callable
+[2025-11-16 08:38:48] ERROR: ✗ Command failed: 'dict' object is not callable
+[2025-11-16 08:40:38] INFO: Enabling web interface service...
+[2025-11-16 08:40:40] INFO: ✓ Flask is installed
+[2025-11-16 08:40:48] INFO: ✓ Web interface service enabled successfully
+[2025-11-16 08:40:48] INFO:   Web UI will start automatically on boot
+[2025-11-16 08:40:48] INFO:   Access: http://[your-pi-ip]:5000
+[2025-11-16 08:40:48] INFO:   Use 'pibridge web disable' to disable
+[2025-11-16 08:40:49] INFO: Enabling hotspot service...
+[2025-11-16 08:40:57] INFO: ✓ Hotspot service enabled successfully
+[2025-11-16 08:40:57] INFO:   Hotspot will start automatically on boot
+[2025-11-16 08:40:57] INFO:   Use 'pibridge hotspot service disable' to disable
+[2025-11-16 08:41:11] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:41:11] INFO: WiFi Connection:
+[2025-11-16 08:41:11] INFO:   Status: Disconnected
+[2025-11-16 08:41:11] INFO:   Interface: wlan0
+[2025-11-16 08:41:11] INFO: 
+Saved Networks:
+[2025-11-16 08:41:11] INFO:   Count: 0
+[2025-11-16 08:41:11] INFO: 
+Hotspot:
+[2025-11-16 08:41:11] INFO:   Status: Inactive
+[2025-11-16 08:41:11] INFO: 
+Serial Bridge:
+[2025-11-16 08:41:11] INFO:   Status: Inactive
+[2025-11-16 08:41:11] INFO: 
+Web UI:
+[2025-11-16 08:41:12] INFO:   Status: Not running
+[2025-11-16 08:41:12] INFO:   Auto-start: Enabled
+[2025-11-16 08:41:12] INFO: 
+Auto-Recovery:
+[2025-11-16 08:41:12] INFO:   Status: Disabled
+[2025-11-16 08:41:12] INFO: 
+[2025-11-16 08:41:50] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:41:50] INFO: WiFi Connection:
+[2025-11-16 08:41:51] INFO:   Status: Disconnected
+[2025-11-16 08:41:51] INFO:   Interface: wlan0
+[2025-11-16 08:41:51] INFO: 
+Saved Networks:
+[2025-11-16 08:41:51] INFO:   Count: 0
+[2025-11-16 08:41:51] INFO: 
+Hotspot:
+[2025-11-16 08:41:51] INFO:   Status: Inactive
+[2025-11-16 08:41:51] INFO: 
+Serial Bridge:
+[2025-11-16 08:41:51] INFO:   Status: Inactive
+[2025-11-16 08:41:51] INFO: 
+Web UI:
+[2025-11-16 08:41:51] INFO:   Status: Not running
+[2025-11-16 08:41:51] INFO:   Auto-start: Enabled
+[2025-11-16 08:41:51] INFO: 
+Auto-Recovery:
+[2025-11-16 08:41:51] INFO:   Status: Disabled
+[2025-11-16 08:41:51] INFO: 
+[2025-11-16 08:44:05] INFO: Enabling web interface service...
+[2025-11-16 08:44:06] INFO: ✓ Flask is installed
+[2025-11-16 08:44:14] INFO: ✓ Web interface service enabled successfully
+[2025-11-16 08:44:14] INFO:   Web UI will start automatically on boot
+[2025-11-16 08:44:14] INFO:   Access: http://[your-pi-ip]:5000
+[2025-11-16 08:44:14] INFO:   Use 'pibridge web disable' to disable
+[2025-11-16 08:48:08] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:48:08] INFO: WiFi Connection:
+[2025-11-16 08:48:08] INFO:   Status: Disconnected
+[2025-11-16 08:48:08] INFO:   Interface: wlan0
+[2025-11-16 08:48:08] INFO: 
+Saved Networks:
+[2025-11-16 08:48:08] INFO:   Count: 0
+[2025-11-16 08:48:08] INFO: 
+Hotspot:
+[2025-11-16 08:48:08] INFO:   Status: Inactive
+[2025-11-16 08:48:08] INFO: 
+Serial Bridge:
+[2025-11-16 08:48:09] INFO:   Status: Inactive
+[2025-11-16 08:48:09] INFO: 
+Web UI:
+[2025-11-16 08:48:09] INFO:   Status: ✓ Running
+[2025-11-16 08:48:09] INFO:   Port: 5000
+[2025-11-16 08:48:09] INFO:   Auto-start: Enabled
+[2025-11-16 08:48:09] INFO:   Access: http://192.168.88.118:5000
+[2025-11-16 08:48:09] INFO: 
+Auto-Recovery:
+[2025-11-16 08:48:09] INFO:   Status: Disabled
+[2025-11-16 08:48:09] INFO: 
+[2025-11-16 08:48:22] INFO: Checking wireless status...
+[2025-11-16 08:48:28] INFO: Starting WiFi hotspot...
+[2025-11-16 08:48:35] INFO: ✓ Hotspot started successfully
+[2025-11-16 08:48:35] INFO:   SSID: pibridge
+[2025-11-16 08:48:35] INFO:   Interface: wlan0
+[2025-11-16 08:48:35] INFO:   IP Address: 192.168.4.1
+[2025-11-16 08:48:35] INFO:   Channel: 6
+[2025-11-16 08:48:50] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:48:50] INFO: WiFi Connection:
+[2025-11-16 08:48:51] INFO:   Status: Disconnected
+[2025-11-16 08:48:51] INFO:   Interface: wlan0
+[2025-11-16 08:48:51] INFO: 
+Saved Networks:
+[2025-11-16 08:48:51] INFO:   Count: 0
+[2025-11-16 08:48:51] INFO: 
+Hotspot:
+[2025-11-16 08:48:51] INFO:   Status: ✓ Active
+[2025-11-16 08:48:51] INFO:   SSID: pibridge
+[2025-11-16 08:48:51] INFO:   Interface: wlan0
+[2025-11-16 08:48:51] INFO:   IP Address: 192.168.4.1
+[2025-11-16 08:48:51] INFO:   Connected Clients: 0
+[2025-11-16 08:48:51] INFO: 
+Serial Bridge:
+[2025-11-16 08:48:51] INFO:   Status: Inactive
+[2025-11-16 08:48:51] INFO: 
+Web UI:
+[2025-11-16 08:48:52] INFO:   Status: ✓ Running
+[2025-11-16 08:48:52] INFO:   Port: 5000
+[2025-11-16 08:48:52] INFO:   Auto-start: Enabled
+[2025-11-16 08:48:52] INFO:   Access: http://192.168.88.118:5000
+[2025-11-16 08:48:52] INFO: 
+Auto-Recovery:
+[2025-11-16 08:48:52] INFO:   Status: Disabled
+[2025-11-16 08:48:52] INFO: 
+[2025-11-16 08:50:26] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:50:26] INFO: WiFi Connection:
+[2025-11-16 08:50:27] INFO:   Status: Disconnected
+[2025-11-16 08:50:27] INFO:   Interface: wlan0
+[2025-11-16 08:50:27] INFO: 
+Saved Networks:
+[2025-11-16 08:50:27] INFO:   Count: 0
+[2025-11-16 08:50:27] INFO: 
+Hotspot:
+[2025-11-16 08:50:27] INFO:   Status: ✓ Active
+[2025-11-16 08:50:27] INFO:   SSID: pibridge
+[2025-11-16 08:50:27] INFO:   Interface: wlan0
+[2025-11-16 08:50:27] INFO:   IP Address: 192.168.4.1
+[2025-11-16 08:50:27] INFO:   Connected Clients: 1
+[2025-11-16 08:50:27] INFO: 
+Serial Bridge:
+[2025-11-16 08:50:27] INFO:   Status: Inactive
+[2025-11-16 08:50:27] INFO: 
+Web UI:
+[2025-11-16 08:50:28] INFO:   Status: ✓ Running
+[2025-11-16 08:50:28] INFO:   Port: 5000
+[2025-11-16 08:50:28] INFO:   Auto-start: Enabled
+[2025-11-16 08:50:28] INFO:   Access: http://192.168.88.118:5000
+[2025-11-16 08:50:28] INFO: 
+Auto-Recovery:
+[2025-11-16 08:50:28] INFO:   Status: Disabled
+[2025-11-16 08:50:28] INFO: 
+[2025-11-16 08:53:13] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:53:13] INFO: WiFi Connection:
+[2025-11-16 08:53:13] INFO:   Status: Disconnected
+[2025-11-16 08:53:13] INFO:   Interface: wlan0
+[2025-11-16 08:53:13] INFO: 
+Saved Networks:
+[2025-11-16 08:53:13] INFO:   Count: 0
+[2025-11-16 08:53:13] INFO: 
+Hotspot:
+[2025-11-16 08:53:14] INFO:   Status: Inactive
+[2025-11-16 08:53:14] INFO: 
+Serial Bridge:
+[2025-11-16 08:53:14] INFO:   Status: Inactive
+[2025-11-16 08:53:14] INFO: 
+Web UI:
+[2025-11-16 08:53:15] INFO:   Status: ✓ Running
+[2025-11-16 08:53:15] INFO:   Port: 5000
+[2025-11-16 08:53:15] INFO:   Auto-start: Enabled
+[2025-11-16 08:53:15] INFO:   Access: http://192.168.88.118:5000
+[2025-11-16 08:53:15] INFO: 
+Auto-Recovery:
+[2025-11-16 08:53:15] INFO:   Status: Disabled
+[2025-11-16 08:53:15] INFO: 
+[2025-11-16 08:53:30] INFO: === PiBridge System Status ===
+
+[2025-11-16 08:53:30] INFO: WiFi Connection:
+[2025-11-16 08:53:30] INFO:   Status: Disconnected
+[2025-11-16 08:53:30] INFO:   Interface: wlan0
+[2025-11-16 08:53:30] INFO: 
+Saved Networks:
+[2025-11-16 08:53:30] INFO:   Count: 0
+[2025-11-16 08:53:30] INFO: 
+Hotspot:
+[2025-11-16 08:53:31] INFO:   Status: Inactive
+[2025-11-16 08:53:31] INFO: 
+Serial Bridge:
+[2025-11-16 08:53:31] INFO:   Status: Inactive
+[2025-11-16 08:53:31] INFO: 
+Web UI:
+[2025-11-16 08:53:31] INFO:   Status: ✓ Running
+[2025-11-16 08:53:31] INFO:   Port: 5000
+[2025-11-16 08:53:31] INFO:   Auto-start: Enabled
+[2025-11-16 08:53:31] INFO:   Access: http://192.168.88.118:5000
+[2025-11-16 08:53:31] INFO: 
+Auto-Recovery:
+[2025-11-16 08:53:32] INFO:   Status: Disabled
+[2025-11-16 08:53:32] INFO: 
+[2025-11-16 08:54:52] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:54:52] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:54:52] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:54:52] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:54:52] INFO: PySerial TCP2COM bridge is not active
+[2025-11-16 08:54:52] INFO: Use 'pibridge pyserial-tcp2com start [profile]' to start the bridge
+[2025-11-16 08:54:57] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:54:57] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:54:57] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:54:57] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:54:57] INFO: 
+Available PySerial TCP2COM Profiles:
+[2025-11-16 08:54:57] INFO:   ttyAMA0
+[2025-11-16 08:54:57] INFO:     Name: GPIO UART Bridge
+[2025-11-16 08:54:57] INFO:     Device: /dev/ttyAMA0
+[2025-11-16 08:54:57] INFO:     Port: 2324
+[2025-11-16 08:54:57] INFO:     Baudrate: 9600
+[2025-11-16 08:54:57] INFO:     Settings: 8N1
+[2025-11-16 08:54:57] INFO:     Description: GPIO UART serial port bridge on port 2324 (9600 8N1)
+[2025-11-16 08:54:57] INFO: 
+[2025-11-16 08:54:57] INFO:   usb0_gx_developer
+[2025-11-16 08:54:57] INFO:     Name: USB0 Bridge for gx Developer
+[2025-11-16 08:54:57] INFO:     Device: /dev/ttyUSB0
+[2025-11-16 08:54:57] INFO:     Port: 23
+[2025-11-16 08:54:57] INFO:     Baudrate: 9600
+[2025-11-16 08:54:57] INFO:     Settings: 7E1
+[2025-11-16 08:54:57] INFO:     Description: USB0 Bridge with exact gx developer parameters: 9600,7E1,1stop
+[2025-11-16 08:54:57] INFO: 
+[2025-11-16 08:54:57] INFO:   usb1
+[2025-11-16 08:54:57] INFO:     Name: USB1 Bridge
+[2025-11-16 08:54:57] INFO:     Device: /dev/ttyUSB1
+[2025-11-16 08:54:57] INFO:     Port: 2323
+[2025-11-16 08:54:57] INFO:     Baudrate: 9600
+[2025-11-16 08:54:57] INFO:     Settings: 8N1
+[2025-11-16 08:54:57] INFO:     Description: USB1 serial port bridge on port 2323 (9600 8N1)
+[2025-11-16 08:54:57] INFO: 
+[2025-11-16 08:54:57] INFO: Status: Inactive
+[2025-11-16 08:55:27] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:55:27] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:55:27] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:55:27] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:55:27] INFO: 
+Available Serial Devices:
+[2025-11-16 08:55:27] INFO:   Device: /dev/ttyUSB0
+[2025-11-16 08:55:27] INFO:     Description: USB2.0-Serial
+[2025-11-16 08:55:27] INFO:     Hardware ID: USB VID:PID=1A86:7523 LOCATION=1-1.2
+[2025-11-16 08:55:27] INFO: 
+[2025-11-16 08:55:27] INFO:   Device: /dev/ttyAMA0
+[2025-11-16 08:55:27] INFO:     Description: n/a
+[2025-11-16 08:55:27] INFO:     Hardware ID: n/a
+[2025-11-16 08:55:27] INFO: 
+[2025-11-16 08:57:19] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:57:19] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:57:19] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:57:19] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:57:19] INFO: 
+Available PySerial TCP2COM Profiles:
+[2025-11-16 08:57:19] INFO:   ttyAMA0
+[2025-11-16 08:57:19] INFO:     Name: GPIO UART Bridge
+[2025-11-16 08:57:19] INFO:     Device: /dev/ttyAMA0
+[2025-11-16 08:57:19] INFO:     Port: 2324
+[2025-11-16 08:57:19] INFO:     Baudrate: 9600
+[2025-11-16 08:57:19] INFO:     Settings: 8N1
+[2025-11-16 08:57:19] INFO:     Description: GPIO UART serial port bridge on port 2324 (9600 8N1)
+[2025-11-16 08:57:19] INFO: 
+[2025-11-16 08:57:19] INFO:   usb0_gx_developer
+[2025-11-16 08:57:19] INFO:     Name: USB0 Bridge for gx Developer
+[2025-11-16 08:57:19] INFO:     Device: /dev/ttyUSB0
+[2025-11-16 08:57:19] INFO:     Port: 23
+[2025-11-16 08:57:19] INFO:     Baudrate: 9600
+[2025-11-16 08:57:19] INFO:     Settings: 7E1
+[2025-11-16 08:57:19] INFO:     Description: USB0 Bridge with exact gx developer parameters: 9600,7E1,1stop
+[2025-11-16 08:57:19] INFO: 
+[2025-11-16 08:57:19] INFO:   usb1
+[2025-11-16 08:57:19] INFO:     Name: USB1 Bridge
+[2025-11-16 08:57:19] INFO:     Device: /dev/ttyUSB1
+[2025-11-16 08:57:19] INFO:     Port: 2323
+[2025-11-16 08:57:19] INFO:     Baudrate: 9600
+[2025-11-16 08:57:19] INFO:     Settings: 8N1
+[2025-11-16 08:57:19] INFO:     Description: USB1 serial port bridge on port 2323 (9600 8N1)
+[2025-11-16 08:57:19] INFO: 
+[2025-11-16 08:57:19] INFO: Status: Inactive
+[2025-11-16 08:57:34] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:57:34] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:57:34] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:57:34] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:57:34] INFO: 
+Available Serial Devices:
+[2025-11-16 08:57:34] INFO:   Device: /dev/ttyUSB0
+[2025-11-16 08:57:34] INFO:     Description: USB2.0-Serial
+[2025-11-16 08:57:34] INFO:     Hardware ID: USB VID:PID=1A86:7523 LOCATION=1-1.2
+[2025-11-16 08:57:34] INFO: 
+[2025-11-16 08:57:34] INFO:   Device: /dev/ttyAMA0
+[2025-11-16 08:57:34] INFO:     Description: n/a
+[2025-11-16 08:57:34] INFO:     Hardware ID: n/a
+[2025-11-16 08:57:34] INFO: 
+[2025-11-16 08:59:26] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:59:26] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:59:26] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:59:26] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:59:46] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 08:59:46] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 08:59:46] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 08:59:46] INFO: DEBUG: Config loaded successfully
+[2025-11-16 08:59:46] INFO: API: Listing PySerial TCP2COM profiles...
+[2025-11-16 08:59:46] ERROR: API: Error listing PySerial profiles: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+[2025-11-16 08:59:46] INFO: API: Listing serial devices...
+[2025-11-16 08:59:46] ERROR: API: Error listing serial devices: Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+[2025-11-16 09:00:04] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 09:00:04] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 09:00:04] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 09:00:04] INFO: DEBUG: Config loaded successfully
+[2025-11-16 09:00:04] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 09:01:12] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 09:01:12] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 09:01:12] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 09:01:12] INFO: DEBUG: Config loaded successfully
+[2025-11-16 10:31:31] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 10:32:01] INFO: Starting PiBridge Web UI on 0.0.0.0:5001
+[2025-11-16 11:06:14] INFO: API: Scanning for networks...
+[2025-11-16 11:06:14] INFO: API: Found 0 networks
+[2025-11-16 11:09:08] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 11:09:08] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 11:09:08] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 11:09:08] INFO: DEBUG: Config loaded successfully
+[2025-11-16 11:09:08] INFO: Starting PiBridge Web UI on 0.0.0.0:5002
+[2025-11-16 11:11:19] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 11:11:19] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 11:11:19] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 11:11:19] INFO: DEBUG: Config loaded successfully
+[2025-11-16 11:11:19] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 11:12:16] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 11:12:16] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 11:12:16] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 11:12:16] INFO: DEBUG: Config loaded successfully
+[2025-11-16 11:12:16] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 11:12:52] INFO: DEBUG: Loading config from /home/fredde/.pibridge/tcp2com_pyserial.yaml
+[2025-11-16 11:12:52] INFO: DEBUG: Config directory ensured: /home/fredde/.pibridge
+[2025-11-16 11:12:52] INFO: DEBUG: Config file exists, loading...
+[2025-11-16 11:12:52] INFO: DEBUG: Config loaded successfully
+[2025-11-16 11:12:52] INFO: Starting PiBridge Web UI on 0.0.0.0:5000

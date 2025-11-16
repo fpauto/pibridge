@@ -1,0 +1,1382 @@
+{% extends "base.html" %}
+
+{% block title %}PiBridge Web UI - Dashboard{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header - Removed to save space -->
+
+<!-- Current Status Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-wifi"></i> Connection Status
+                </h6>
+            </div>
+            <div class="card-body">
+                <div id="connection-status">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    Loading...
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-broadcast-tower"></i> Hotspot Status
+                </h6>
+            </div>
+            <div class="card-body">
+                <div id="hotspot-status">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-exchange-alt"></i> Bridge Status
+                </h6>
+            </div>
+            <div class="card-body">
+                <div id="bridge-status">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-bolt"></i> Quick Actions
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary" onclick="scanNetworks()">
+                        <i class="fas fa-search"></i> Scan Networks
+                    </button>
+                    <button type="button" class="btn btn-outline-success" onclick="autoConnect()">
+                        <i class="fas fa-wifi"></i> Auto Connect
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" onclick="disconnect()">
+                        <i class="fas fa-times"></i> Disconnect
+                    </button>
+                    <button type="button" class="btn btn-outline-info" onclick="toggleHotspot()">
+                        <i class="fas fa-broadcast-tower"></i> Toggle Hotspot
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="toggleBridge()">
+                        <i class="fas fa-exchange-alt"></i> Toggle Bridge
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Available Networks -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">
+                    <i class="fas fa-list"></i> Available Networks
+                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="scanNetworks()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </h6>
+                <small class="text-muted" id="scan-timestamp">Never scanned</small>
+            </div>
+            <div class="card-body p-0">
+                <div id="networks-list" style="max-height: 400px; overflow-y: auto;">
+                    <div class="text-center p-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Scanning for networks...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Connect to Network Form -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-plus"></i> Connect to Network
+                </h6>
+            </div>
+            <div class="card-body">
+                <form id="connect-form">
+                    <div class="mb-3">
+                        <label for="ssid" class="form-label">Network Name (SSID)</label>
+                        <input type="text" class="form-control" id="ssid" placeholder="Enter network name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter network password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-wifi"></i> Connect
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Saved Networks -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">
+                    <i class="fas fa-save"></i> Saved Networks
+                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="loadSavedNetworks()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </h6>
+                <small class="text-muted" id="saved-networks-timestamp">Loading...</small>
+            </div>
+            <div class="card-body p-0">
+                <div id="saved-networks-list" style="max-height: 300px; overflow-y: auto;">
+                    <div class="text-center p-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading saved networks...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Services Management -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-cogs"></i> Services Management
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Web Interface Service -->
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>
+                                    <i class="fas fa-globe"></i> Web Interface
+                                </h6>
+                                <div id="web-service-status" class="mb-2">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline-success" onclick="enableWebService()">
+                                        <i class="fas fa-play"></i> Enable
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="disableWebService()">
+                                        <i class="fas fa-stop"></i> Disable
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hotspot Service -->
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>
+                                    <i class="fas fa-broadcast-tower"></i> Hotspot Service
+                                </h6>
+                                <div id="hotspot-service-status" class="mb-2">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline-success" onclick="enableHotspotService()">
+                                        <i class="fas fa-play"></i> Enable
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="disableHotspotService()">
+                                        <i class="fas fa-stop"></i> Disable
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Auto-Recovery Service -->
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>
+                                    <i class="fas fa-sync-alt"></i> Auto-Recovery
+                                </h6>
+                                <div id="auto-recovery-status" class="mb-2">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-outline-success" onclick="enableAutoRecovery()">
+                                        <i class="fas fa-play"></i> Enable
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" onclick="disableAutoRecovery()">
+                                        <i class="fas fa-stop"></i> Disable
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bridge Management -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="mb-0">
+                    <i class="fas fa-exchange-alt"></i> Bridge Management
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Serial Devices -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-list"></i> Serial Devices
+                                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="refreshSerialDevices()">
+                                        <i class="fas fa-sync-alt"></i> Scan
+                                    </button>
+                                </h6>
+                                <small class="text-muted" id="devices-timestamp">Never scanned</small>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="serial-devices-list" style="max-height: 200px; overflow-y: auto;">
+                                    <div class="text-center p-4">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Scanning for devices...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bridge Profiles -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-cog"></i> Bridge Profiles
+                                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="refreshBridgeProfiles()">
+                                        <i class="fas fa-sync-alt"></i> Refresh
+                                    </button>
+                                </h6>
+                                <small class="text-muted" id="profiles-timestamp">Loading...</small>
+                            </div>
+                            <div class="card-body p-0">
+                                <div id="bridge-profiles-list" style="max-height: 200px; overflow-y: auto;">
+                                    <div class="text-center p-4">
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Loading profiles...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add New Profile Form -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-plus"></i> Add New Profile
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <form id="bridge-profile-form">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="profile-name" class="form-label">Profile Name</label>
+                                                <input type="text" class="form-control" id="profile-name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="mb-3">
+                                                <label for="profile-device" class="form-label">Serial Device</label>
+                                                <select class="form-control" id="profile-device" required>
+                                                    <option value="">Select a device</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label for="profile-baudrate" class="form-label">Baud Rate</label>
+                                                <select class="form-control" id="profile-baudrate">
+                                                    <option value="9600">9600</option>
+                                                    <option value="19200">19200</option>
+                                                    <option value="38400">38400</option>
+                                                    <option value="57600">57600</option>
+                                                    <option value="115200">115200</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label for="profile-port" class="form-label">TCP Port</label>
+                                                <input type="number" class="form-control" id="profile-port" value="8000" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="mb-3">
+                                                <label class="form-label">&nbsp;</label>
+                                                <button type="submit" class="btn btn-primary d-block w-100">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Connected Clients -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">
+                    <i class="fas fa-users"></i> Connected Clients
+                    <button class="btn btn-sm btn-outline-primary ms-2" onclick="updateConnectedClients()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </h6>
+                <small class="text-muted" id="clients-timestamp">Never updated</small>
+            </div>
+            <div class="card-body p-0">
+                <div id="connected-clients-list" style="max-height: 400px; overflow-y: auto;">
+                    <div class="text-center p-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading connected clients...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Dashboard-specific functions
+
+// Update dashboard
+async function updateDashboard() {
+    try {
+        const data = await apiCall('/api/status/dashboard');
+        const dashboard = data.dashboard;
+        
+        // Update connection status
+        const connectionElement = document.getElementById('connection-status');
+        if (dashboard.connection_status === 'Connected') {
+            let ipText = '';
+            if (dashboard.current_ip) {
+                ipText = `<br><small class="text-muted">IP: ${dashboard.current_ip}</small>`;
+            }
+            connectionElement.innerHTML = `
+                <span class="status-indicator status-connected"></span>
+                <strong>Connected to ${dashboard.current_network}</strong>
+                ${ipText}
+            `;
+        } else {
+            connectionElement.innerHTML = `
+                <span class="status-indicator status-disconnected"></span>
+                <strong>Disconnected</strong>
+            `;
+        }
+        
+        // Update hotspot status
+        const hotspotElement = document.getElementById('hotspot-status');
+        if (dashboard.hotspot_status === 'Active') {
+            const clientsText = dashboard.hotspot_clients > 0 ?
+                `<br><small class="text-muted">${dashboard.hotspot_clients} client${dashboard.hotspot_clients === 1 ? '' : 's'}</small>` :
+                '<br><small class="text-muted">No clients connected</small>';
+            hotspotElement.innerHTML = `
+                <span class="status-indicator status-hotspot"></span>
+                <strong>Active</strong>
+                <br><small>${dashboard.hotspot_ssid}</small>
+                ${clientsText}
+            `;
+        } else {
+            hotspotElement.innerHTML = `
+                <span class="status-indicator status-disconnected"></span>
+                <strong>Stopped</strong>
+            `;
+        }
+        
+        // Update bridge status
+        const bridgeElement = document.getElementById('bridge-status');
+        try {
+            const bridgeData = await apiCall('/api/bridge/pyserial/status');
+            if (bridgeData.active) {
+                bridgeElement.innerHTML = `
+                    <span class="status-indicator status-connected"></span>
+                    <strong>Active</strong>
+                    <br><small class="text-muted">Port: ${bridgeData.port || 'N/A'}</small>
+                `;
+            } else {
+                bridgeElement.innerHTML = `
+                    <span class="status-indicator status-disconnected"></span>
+                    <strong>Stopped</strong>
+                `;
+            }
+        } catch (error) {
+            bridgeElement.innerHTML = '<span class="text-muted">Error</span>';
+        }
+        
+    } catch (error) {
+        console.error('Failed to update dashboard:', error);
+        showMessage('Failed to update dashboard: ' + error.message, 'error');
+    }
+}
+
+// Scan networks
+async function scanNetworks() {
+    const networksList = document.getElementById('networks-list');
+    const timestamp = document.getElementById('scan-timestamp');
+    
+    // Show loading state
+    networksList.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Scanning for networks...</p>
+        </div>
+    `;
+    
+    try {
+        const data = await apiCall('/api/networks');
+        const networks = data.networks;
+        
+        timestamp.textContent = new Date().toLocaleTimeString();
+        
+        if (networks.length === 0) {
+            networksList.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-search fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">No networks found</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '<div class="list-group list-group-flush">';
+        
+        networks.forEach(network => {
+            const currentClass = network.in_use ? 'network-current' : 
+                               network.saved ? 'network-saved' : '';
+            
+            const statusIcon = network.in_use ? '<i class="fas fa-check-circle text-success"></i>' :
+                              network.saved ? '<i class="fas fa-star text-warning"></i>' :
+                              '<i class="fas fa-circle text-muted"></i>';
+            
+            html += `
+                <div class="list-group-item ${currentClass} network-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                ${statusIcon}
+                                <strong class="ms-2 text-truncate">${network.ssid}</strong>
+                            </div>
+                            <div class="small text-muted">
+                                <span class="me-3">
+                                    <i class="fas fa-signal"></i>
+                                    ${formatSignalStrength(network.signal)}
+                                </span>
+                                <span class="me-3">
+                                    <i class="fas fa-shield-alt"></i>
+                                    ${network.security}
+                                </span>
+                                <span class="me-3">
+                                    <i class="fas fa-broadcast-tower"></i>
+                                    ${network.frequency}
+                                </span>
+                                <span class="me-3 ${getSignalQualityClass(network.signal_quality)}">
+                                    ${renderSignalBars(network.signal_quality)}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            ${!network.in_use ? `
+                                <button class="btn btn-sm btn-primary" 
+                                        onclick="connectToNetwork('${network.ssid}')">
+                                    <i class="fas fa-wifi"></i> Connect
+                                </button>
+                            ` : `
+                                <span class="badge bg-success">Connected</span>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        networksList.innerHTML = html;
+        
+    } catch (error) {
+        networksList.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                <p class="mt-2 text-danger">Failed to scan networks: ${error.message}</p>
+                <button class="btn btn-outline-primary btn-sm" onclick="scanNetworks()">
+                    <i class="fas fa-sync-alt"></i> Retry
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Connect to network
+async function connectToNetwork(ssid) {
+    const password = prompt(`Enter password for network: ${ssid}`);
+    if (!password) return;
+    
+    try {
+        showMessage(`Connecting to ${ssid}...`, 'info');
+        
+        const data = await apiCall('/api/connect', {
+            method: 'POST',
+            body: JSON.stringify({
+                ssid: ssid,
+                password: password
+            })
+        });
+        
+        showMessage(`Successfully connected to ${ssid}`, 'success');
+        
+        // Refresh dashboard and networks
+        await Promise.all([
+            updateDashboard(),
+            scanNetworks()
+        ]);
+        
+    } catch (error) {
+        showMessage(`Failed to connect to ${ssid}: ${error.message}`, 'error');
+    }
+}
+
+// Auto connect
+async function autoConnect() {
+    try {
+        showMessage('Attempting auto-connect...', 'info');
+        
+        const data = await apiCall('/api/auto-connect', {
+            method: 'POST'
+        });
+        
+        showMessage(data.message, 'success');
+        
+        // Refresh dashboard and networks
+        await Promise.all([
+            updateDashboard(),
+            scanNetworks()
+        ]);
+        
+    } catch (error) {
+        showMessage(`Auto-connect failed: ${error.message}`, 'error');
+    }
+}
+
+// Disconnect
+async function disconnect() {
+    try {
+        showMessage('Disconnecting...', 'info');
+        
+        const data = await apiCall('/api/disconnect', {
+            method: 'POST'
+        });
+        
+        showMessage(data.message, 'success');
+        
+        // Refresh dashboard and networks
+        await Promise.all([
+            updateDashboard(),
+            scanNetworks()
+        ]);
+        
+    } catch (error) {
+        showMessage(`Disconnect failed: ${error.message}`, 'error');
+    }
+}
+
+// Toggle hotspot
+async function toggleHotspot() {
+    try {
+        const statusData = await apiCall('/api/hotspot/status');
+        const isActive = statusData.hotspot.active;
+        
+        if (isActive) {
+            showMessage('Stopping hotspot...', 'info');
+            await apiCall('/api/hotspot/stop', { method: 'POST' });
+            showMessage('Hotspot stopped successfully', 'success');
+        } else {
+            showMessage('Starting hotspot...', 'info');
+            await apiCall('/api/hotspot/start', { method: 'POST' });
+            showMessage('Hotspot started successfully', 'success');
+        }
+        
+        // Refresh dashboard
+        await updateDashboard();
+        
+    } catch (error) {
+        showMessage(`Hotspot operation failed: ${error.message}`, 'error');
+    }
+}
+
+// Load saved networks
+async function loadSavedNetworks() {
+    const savedList = document.getElementById('saved-networks-list');
+    const timestamp = document.getElementById('saved-networks-timestamp');
+    
+    // Show loading state
+    savedList.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading saved networks...</p>
+        </div>
+    `;
+    
+    try {
+        const data = await apiCall('/api/networks/saved');
+        const networks = data.networks;
+        
+        timestamp.textContent = new Date().toLocaleTimeString();
+        
+        if (networks.length === 0) {
+            savedList.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-save fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">No saved networks</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '<div class="list-group list-group-flush">';
+        
+        networks.forEach(network => {
+            html += `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong class="text-truncate">${network.ssid}</strong>
+                            <div class="small text-muted">
+                                Added: ${formatDate(network.added_date)} | 
+                                Last: ${formatDate(network.last_connected)}
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-outline-primary" 
+                                    onclick="connectToNetwork('${network.ssid}')">
+                                <i class="fas fa-wifi"></i> Connect
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" 
+                                    onclick="forgetNetwork('${network.ssid}')">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        savedList.innerHTML = html;
+        
+    } catch (error) {
+        savedList.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                <p class="mt-2 text-danger">Failed to load saved networks: ${error.message}</p>
+                <button class="btn btn-outline-primary btn-sm" onclick="loadSavedNetworks()">
+                    <i class="fas fa-sync-alt"></i> Retry
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Forget network
+async function forgetNetwork(ssid) {
+    if (!confirm(`Are you sure you want to remove the saved network "${ssid}"?`)) {
+        return;
+    }
+    
+    try {
+        showMessage(`Removing ${ssid}...`, 'info');
+        
+        const data = await apiCall(`/api/networks/forget/${encodeURIComponent(ssid)}`, {
+            method: 'POST'
+        });
+        
+        showMessage(data.message, 'success');
+        
+        // Refresh saved networks
+        await loadSavedNetworks();
+        
+    } catch (error) {
+        showMessage(`Failed to remove ${ssid}: ${error.message}`, 'error');
+    }
+}
+
+// Load connected clients
+async function updateConnectedClients() {
+    const clientsList = document.getElementById('connected-clients-list');
+    const timestamp = document.getElementById('clients-timestamp');
+    
+    // Show loading state
+    clientsList.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading connected clients...</p>
+        </div>
+    `;
+    
+    try {
+        const data = await apiCall('/api/hotspot/status');
+        const hotspotStatus = data.hotspot;
+        const clients = hotspotStatus.client_details || [];
+        
+        timestamp.textContent = new Date().toLocaleTimeString();
+        
+        if (!hotspotStatus.active) {
+            clientsList.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-broadcast-tower fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">Hotspot is not active</p>
+                </div>
+            `;
+            return;
+        }
+        
+        if (clients.length === 0) {
+            clientsList.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-users fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">No clients connected</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '<div class="list-group list-group-flush">';
+        
+        clients.forEach((client, index) => {
+            const connectionTime = client.connected_since || "Unknown";
+            
+            html += `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fas fa-laptop text-primary"></i>
+                                <strong class="ms-2">${client.hostname || 'Unknown Device'}</strong>
+                            </div>
+                            <div class="small text-muted">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <i class="fas fa-globe"></i>
+                                        <strong>IP:</strong> ${client.ip}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <i class="fas fa-id-card"></i>
+                                        <strong>MAC:</strong> ${client.mac}
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <i class="fas fa-clock"></i>
+                                        <strong>Connected:</strong> ${connectionTime}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="client-status">
+                            <span class="badge bg-success">
+                                <i class="fas fa-circle"></i> Connected
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        clientsList.innerHTML = html;
+        
+    } catch (error) {
+        clientsList.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                <p class="mt-2 text-danger">Failed to load client information: ${error.message}</p>
+                <button class="btn btn-outline-primary btn-sm" onclick="updateConnectedClients()">
+                    <i class="fas fa-sync-alt"></i> Retry
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Bridge management functions
+
+// Toggle bridge
+async function toggleBridge() {
+    try {
+        const statusData = await apiCall('/api/bridge/pyserial/status');
+        const isActive = statusData.active;
+        
+        if (isActive) {
+            showMessage('Stopping bridge...', 'info');
+            await apiCall('/api/bridge/pyserial/stop', { method: 'POST' });
+            showMessage('Bridge stopped successfully', 'success');
+        } else {
+            showMessage('Starting bridge...', 'info');
+            await apiCall('/api/bridge/pyserial/start', { method: 'POST' });
+            showMessage('Bridge started successfully', 'success');
+        }
+        
+        // Refresh dashboard
+        await updateDashboard();
+        
+    } catch (error) {
+        showMessage(`Bridge operation failed: ${error.message}`, 'error');
+    }
+}
+
+// Refresh serial devices
+async function refreshSerialDevices() {
+    const devicesList = document.getElementById('serial-devices-list');
+    const timestamp = document.getElementById('devices-timestamp');
+    
+    // Show loading state
+    devicesList.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Scanning for devices...</p>
+        </div>
+    `;
+    
+    try {
+        const data = await apiCall('/api/bridge/pyserial/devices');
+        const devices = data.devices;
+        
+        timestamp.textContent = new Date().toLocaleTimeString();
+        
+        if (devices.length === 0) {
+            devicesList.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-search fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">No serial devices found</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '<div class="list-group list-group-flush">';
+        
+        devices.forEach(device => {
+            html += `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fas fa-microchip text-primary"></i>
+                                <strong class="ms-2">${device.device}</strong>
+                            </div>
+                            <div class="small text-muted">
+                                <div>${device.description}</div>
+                                ${device.hardware_id ? `<div><i class="fas fa-info-circle"></i> ${device.hardware_id}</div>` : ''}
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-outline-success"
+                                    onclick="selectDevice('${device.device}')">
+                                <i class="fas fa-plus"></i> Select
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        devicesList.innerHTML = html;
+        
+        // Update device dropdown in profile form
+        const deviceDropdown = document.getElementById('profile-device');
+        deviceDropdown.innerHTML = '<option value="">Select a device</option>';
+        devices.forEach(device => {
+            const option = document.createElement('option');
+            option.value = device.device;
+            option.textContent = `${device.device} - ${device.description}`;
+            deviceDropdown.appendChild(option);
+        });
+        
+    } catch (error) {
+        devicesList.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                <p class="mt-2 text-danger">Failed to scan devices: ${error.message}</p>
+                <button class="btn btn-outline-primary btn-sm" onclick="refreshSerialDevices()">
+                    <i class="fas fa-sync-alt"></i> Retry
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Select device helper
+function selectDevice(devicePath) {
+    document.getElementById('profile-device').value = devicePath;
+    showMessage(`Selected device: ${devicePath}`, 'info');
+}
+
+// Refresh bridge profiles
+async function refreshBridgeProfiles() {
+    const profilesList = document.getElementById('bridge-profiles-list');
+    const timestamp = document.getElementById('profiles-timestamp');
+    
+    // Show loading state
+    profilesList.innerHTML = `
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading profiles...</p>
+        </div>
+    `;
+    
+    try {
+        const data = await apiCall('/api/bridge/pyserial/profiles');
+        const profiles = data.profiles;
+        const active = data.active;
+        
+        timestamp.textContent = new Date().toLocaleTimeString();
+        
+        const profileNames = Object.keys(profiles);
+        if (profileNames.length === 0) {
+            profilesList.innerHTML = `
+                <div class="text-center p-4">
+                    <i class="fas fa-cog fa-2x text-muted"></i>
+                    <p class="mt-2 text-muted">No bridge profiles configured</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let html = '<div class="list-group list-group-flush">';
+        
+        profileNames.forEach(name => {
+            const profile = profiles[name];
+            const isActive = active && name === 'default';
+            const isDefault = name === 'default';
+            
+            html += `
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fas fa-cog ${isActive ? 'text-success' : 'text-muted'}"></i>
+                                <strong class="ms-2">${name}</strong>
+                                ${isActive ? '<span class="badge bg-success ms-2">Active</span>' : ''}
+                                ${isDefault ? '<span class="badge bg-info ms-2">Default</span>' : ''}
+                            </div>
+                            <div class="small text-muted">
+                                <div><i class="fas fa-microchip"></i> ${profile.device || 'N/A'}</div>
+                                <div><i class="fas fa-tachometer-alt"></i> ${profile.baudrate || 'N/A'} baud</div>
+                                <div><i class="fas fa-plug"></i> Port ${profile.port || 'N/A'}</div>
+                                ${profile.description ? `<div><i class="fas fa-info-circle"></i> ${profile.description}</div>` : ''}
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            ${!isActive ? `
+                                <button class="btn btn-sm btn-outline-primary"
+                                        onclick="startBridgeProfile('${name}')">
+                                    <i class="fas fa-play"></i> Start
+                                </button>
+                            ` : `
+                                <button class="btn btn-sm btn-outline-warning"
+                                        onclick="stopBridgeProfile()">
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            `}
+                            ${!isDefault ? `
+                                <button class="btn btn-sm btn-outline-info"
+                                        onclick="setDefaultProfile('${name}')">
+                                    <i class="fas fa-star"></i> Set Default
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-sm btn-outline-danger"
+                                    onclick="deleteProfile('${name}')"
+                                    ${isDefault ? 'disabled' : ''}>
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        profilesList.innerHTML = html;
+        
+    } catch (error) {
+        profilesList.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                <p class="mt-2 text-danger">Failed to load profiles: ${error.message}</p>
+                <button class="btn btn-outline-primary btn-sm" onclick="refreshBridgeProfiles()">
+                    <i class="fas fa-sync-alt"></i> Retry
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Bridge profile management functions
+async function startBridgeProfile(profileName) {
+    try {
+        showMessage(`Starting bridge with profile: ${profileName}...`, 'info');
+        await apiCall('/api/bridge/pyserial/start', {
+            method: 'POST',
+            body: JSON.stringify({ profile: profileName })
+        });
+        showMessage(`Bridge started successfully with profile: ${profileName}`, 'success');
+        await Promise.all([updateDashboard(), refreshBridgeProfiles()]);
+    } catch (error) {
+        showMessage(`Failed to start bridge: ${error.message}`, 'error');
+    }
+}
+
+async function stopBridgeProfile() {
+    try {
+        showMessage('Stopping bridge...', 'info');
+        await apiCall('/api/bridge/pyserial/stop', { method: 'POST' });
+        showMessage('Bridge stopped successfully', 'success');
+        await Promise.all([updateDashboard(), refreshBridgeProfiles()]);
+    } catch (error) {
+        showMessage(`Failed to stop bridge: ${error.message}`, 'error');
+    }
+}
+
+async function setDefaultProfile(profileName) {
+    try {
+        showMessage(`Setting default profile to: ${profileName}...`, 'info');
+        // Update profile name to 'default'
+        await apiCall(`/api/bridge/pyserial/profiles/${profileName}`, {
+            method: 'PUT',
+            body: JSON.stringify({ name: 'default' })
+        });
+        showMessage(`Default profile set successfully`, 'success');
+        await refreshBridgeProfiles();
+    } catch (error) {
+        showMessage(`Failed to set default profile: ${error.message}`, 'error');
+    }
+}
+
+async function deleteProfile(profileName) {
+    if (!confirm(`Are you sure you want to delete the profile "${profileName}"?`)) {
+        return;
+    }
+    
+    try {
+        showMessage(`Deleting profile: ${profileName}...`, 'info');
+        await apiCall(`/api/bridge/pyserial/profiles/${profileName}`, { method: 'DELETE' });
+        showMessage(`Profile "${profileName}" deleted successfully`, 'success');
+        await refreshBridgeProfiles();
+    } catch (error) {
+        showMessage(`Failed to delete profile: ${error.message}`, 'error');
+    }
+}
+
+// Handle bridge profile form submission
+document.getElementById('bridge-profile-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('profile-name').value.trim();
+    const device = document.getElementById('profile-device').value;
+    const baudrate = parseInt(document.getElementById('profile-baudrate').value);
+    const port = parseInt(document.getElementById('profile-port').value);
+    
+    if (!name || !device) {
+        showMessage('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    try {
+        showMessage(`Creating profile: ${name}...`, 'info');
+        
+        await apiCall('/api/bridge/pyserial/profiles', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: name,
+                device: device,
+                baudrate: baudrate,
+                port: port
+            })
+        });
+        
+        showMessage(`Profile "${name}" created successfully`, 'success');
+        
+        // Clear form
+        document.getElementById('profile-name').value = '';
+        document.getElementById('profile-device').value = '';
+        
+        // Refresh profiles list
+        await refreshBridgeProfiles();
+        
+    } catch (error) {
+        showMessage(`Failed to create profile: ${error.message}`, 'error');
+    }
+});
+
+// Service management functions
+async function updateServicesManagement() {
+    try {
+        const data = await apiCall('/api/status/services');
+        const services = data.services;
+        
+        // Update web service status
+        const webStatus = services['pibridge-web.service'];
+        const webElement = document.getElementById('web-service-status');
+        if (webStatus) {
+            webElement.innerHTML = `
+                <span class="service-status ${webStatus.enabled ? 'service-enabled' : 'service-disabled'}">
+                    ${webStatus.enabled ? 'Enabled' : 'Disabled'}
+                </span>
+                ${webStatus.active ? '<br><small class="text-success"><i class="fas fa-circle"></i> Running</small>' : ''}
+            `;
+        }
+        
+        // Update hotspot service status
+        const hotspotStatus = services['pibridge-hotspot.service'];
+        const hotspotElement = document.getElementById('hotspot-service-status');
+        if (hotspotStatus) {
+            hotspotElement.innerHTML = `
+                <span class="service-status ${hotspotStatus.enabled ? 'service-enabled' : 'service-disabled'}">
+                    ${hotspotStatus.enabled ? 'Enabled' : 'Disabled'}
+                </span>
+                ${hotspotStatus.active ? '<br><small class="text-success"><i class="fas fa-circle"></i> Active</small>' : ''}
+            `;
+        }
+        
+        // Update auto-recovery status
+        const autoStatus = services['pibridge-auto-recovery.service'];
+        const autoElement = document.getElementById('auto-recovery-status');
+        if (autoStatus) {
+            autoElement.innerHTML = `
+                <span class="service-status ${autoStatus.enabled ? 'service-enabled' : 'service-disabled'}">
+                    ${autoStatus.enabled ? 'Enabled' : 'Disabled'}
+                </span>
+                ${autoStatus.enabled ? '<br><small class="text-info"><i class="fas fa-clock"></i> Boot recovery</small>' : ''}
+            `;
+        }
+        
+    } catch (error) {
+        console.error('Failed to update services status:', error);
+    }
+}
+
+// Service control functions
+async function enableWebService() {
+    try {
+        await apiCall('/api/web/enable', { method: 'POST' });
+        showMessage('Web interface service enabled', 'success');
+        updateServicesManagement();
+    } catch (error) {
+        showMessage(`Failed to enable web service: ${error.message}`, 'error');
+    }
+}
+
+async function disableWebService() {
+    try {
+        await apiCall('/api/web/disable', { method: 'POST' });
+        showMessage('Web interface service disabled', 'success');
+        updateServicesManagement();
+    } catch (error) {
+        showMessage(`Failed to disable web service: ${error.message}`, 'error');
+    }
+}
+
+async function enableHotspotService() {
+    try {
+        await apiCall('/api/hotspot/service/enable', { method: 'POST' });
+        showMessage('Hotspot service enabled', 'success');
+        updateServicesManagement();
+    } catch (error) {
+        showMessage(`Failed to enable hotspot service: ${error.message}`, 'error');
+    }
+}
+
+async function disableHotspotService() {
+    try {
+        await apiCall('/api/hotspot/service/disable', { method: 'POST' });
+        showMessage('Hotspot service disabled', 'success');
+        updateServicesManagement();
+    } catch (error) {
+        showMessage(`Failed to disable hotspot service: ${error.message}`, 'error');
+    }
+}
+
+async function enableAutoRecovery() {
+    try {
+        await apiCall('/api/auto-recovery/enable', { method: 'POST' });
+        showMessage('Auto-recovery service enabled', 'success');
+        updateServicesManagement();
+    } catch (error) {
+        showMessage(`Failed to enable auto-recovery: ${error.message}`, 'error');
+    }
+}
+
+async function disableAutoRecovery() {
+    try {
+        await apiCall('/api/auto-recovery/disable', { method: 'POST' });
+        showMessage('Auto-recovery service disabled', 'success');
+        updateServicesManagement();
+    } catch (error) {
+        showMessage(`Failed to disable auto-recovery: ${error.message}`, 'error');
+    }
+}
+
+// Handle connect form submission
+document.getElementById('connect-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const ssid = document.getElementById('ssid').value;
+    const password = document.getElementById('password').value;
+    
+    if (!ssid || !password) {
+        showMessage('Please enter both SSID and password', 'error');
+        return;
+    }
+    
+    try {
+        showMessage(`Connecting to ${ssid}...`, 'info');
+        
+        const data = await apiCall('/api/connect', {
+            method: 'POST',
+            body: JSON.stringify({
+                ssid: ssid,
+                password: password
+            })
+        });
+        
+        showMessage(data.message, 'success');
+        
+        // Clear form
+        document.getElementById('ssid').value = '';
+        document.getElementById('password').value = '';
+        
+        // Refresh dashboard and networks
+        await Promise.all([
+            updateDashboard(),
+            scanNetworks(),
+            loadSavedNetworks()
+        ]);
+        
+    } catch (error) {
+        showMessage(`Failed to connect: ${error.message}`, 'error');
+    }
+});
+
+// Override global refresh function to include bridge management
+const originalRefreshAll = window.refreshAll;
+window.refreshAll = async function() {
+try {
+showMessage('Refreshing data...', 'info');
+await Promise.all([
+    updateDashboard(),
+    scanNetworks(),
+    loadSavedNetworks(),
+    updateConnectedClients(),
+    updateServicesManagement(),
+    refreshSerialDevices(),
+    refreshBridgeProfiles()
+]);
+showMessage('Data refreshed successfully', 'success');
+} catch (error) {
+showMessage(`Failed to refresh data: ${error.message}`, 'error');
+}
+};
+
+// Initialize dashboard on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Load initial data
+    Promise.all([
+        updateDashboard(),
+        scanNetworks(),
+        loadSavedNetworks(),
+        updateServicesManagement(),
+        updateConnectedClients(),
+        refreshSerialDevices(),
+        refreshBridgeProfiles()
+    ]).catch(error => {
+        console.error('Failed to load initial dashboard data:', error);
+        showMessage('Failed to load dashboard data', 'error');
+    });
+});
+</script>
+{% endblock %}
