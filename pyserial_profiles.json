@@ -1,0 +1,13 @@
+{
+  "gx-developer": {
+    "device": "/dev/ttyUSB0",
+    "baudrate": 9600,
+    "port": 8000,
+    "bytesize": 7,
+    "parity": "E",
+    "stopbits": 1,
+    "timeout": 1.0,
+    "description": "USB0 Bridge with exact gx developer parameters: 9600,7E1,1stop",
+    "created": "2025-11-16T20:38:03.274534"
+  }
+}

@@ -20,7 +20,7 @@ try:
     from logger import setup_logger
     from exceptions import (
         ConnectionFailedException,
-        NoSavedNetworksException, 
+        NoSavedNetworksException,
         RfkillBlockedException
     )
 except ImportError as e:

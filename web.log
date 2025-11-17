@@ -1,0 +1,11 @@
+Warning: Could not import PiBridge modules: No module named 'tcp2com_pyserial'
+[2025-11-16 19:45:05] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 19:45:05] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 19:45:05] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 19:45:05] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 19:45:05] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+[2025-11-16 19:45:05] INFO: Starting PiBridge Web UI on 0.0.0.0:5000
+ * Serving Flask app 'app'
+ * Debug mode: off
+Address already in use
+Port 5000 is in use by another program. Either identify and stop that program, or start the server with a different port.

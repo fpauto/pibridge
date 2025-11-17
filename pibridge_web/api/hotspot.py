@@ -69,7 +69,6 @@ def start_hotspot():
                 'success': False,
                 'error': f'Wireless is blocked: {str(e)}'
             }), 400
-        
         # Start hotspot
         hotspot = HotspotManager()
         success = hotspot.start_hotspot()
@@ -96,11 +95,28 @@ def start_hotspot():
             }), 500
             
     except Exception as e:
+        error_msg = str(e)
         logger.error(f"API: Error starting hotspot: {e}")
+        
+        # Provide more helpful error messages based on the type of error
+        if "sudo" in error_msg.lower() or "permission" in error_msg.lower() or "operation not permitted" in error_msg.lower():
+            user_message = "Hotspot functionality requires administrator privileges. Please run the web interface as root or contact your system administrator."
+            status_code = 403  # Forbidden
+        elif "hard_blocked" in error_msg.lower() or "soft_blocked" in error_msg.lower():
+            user_message = "Wireless adapter is blocked. Please unblock it using 'sudo rfkill unblock wifi' and try again."
+            status_code = 400  # Bad Request
+        elif "already running" in error_msg.lower():
+            user_message = "Hotspot is already running. Stop it first before starting again."
+            status_code = 409  # Conflict
+        else:
+            user_message = f"Failed to start hotspot: {error_msg}"
+            status_code = 500  # Internal Server Error
+        
         return jsonify({
             'success': False,
-            'error': f'Failed to start hotspot: {str(e)}'
-        }), 500
+            'error': user_message,
+            'debug_info': error_msg if status_code == 500 else None
+        }), status_code
 
 
 @bp.route('/hotspot/stop', methods=['POST'])

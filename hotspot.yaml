@@ -1,0 +1,10 @@
+hotspot:
+  channel: 6
+  country_code: US
+  dhcp_end: 192.168.4.50
+  dhcp_start: 192.168.4.10
+  interface: wlan0
+  ip_address: 192.168.4.1
+  password: pibridge123
+  ssid: pibridge
+  subnet_mask: 255.255.255.0
